@@ -32,6 +32,37 @@ const isEmail = (email) => {
     else return false;
 }
 
+const FBAuth = (req, res, next) => {
+    let idToken;
+    const authorization = req.headers.authorization;
+
+    if (authorization && authorization.startsWith('Bearer ')) {
+        idToken = authorization.split('Bearer ')[1];
+    } else {
+        console.err('No token found')
+        return res.status(403).json({ error: 'Unauthorized!' });
+    }
+
+    admin.auth().verifyIdToken(idToken)
+        .then(decodedToken => { 
+            //the token received here contains user data that needs to be added to the user request
+            //exta data on the token form the user  in the middleware
+            req.user = decodedToken;
+            console.log(decodedToken);
+            return db.collection('users')
+                .where('userId', '==', req.user.uid)
+                .limit(1)
+                .get();
+        })
+        .then(data => {
+            req.user.handle = data.docs[0].data().handle;
+            return next();
+        })
+        .catch(err => {
+            console.error(' Error while verifying token', err)
+            return res.status(403).json({err})
+        })
+}
 
 /**
  * ROUTES
@@ -59,10 +90,10 @@ app.get('/spores', (req, res) => {
 });
 
 
-app.post('/spore', (req, res) => {
+app.post('/spore', FBAuth, (req, res) => {
     const newSpore = {
         body: req.body.body,
-        userHandle: req.body.userHandle,
+        userHandle: req.user.handle,
         createdAt: new Date().toISOString()
     };
     db.collection("spores").add(newSpore)
