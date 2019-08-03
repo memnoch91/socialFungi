@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "socialfungi",
+  "private_key_id": "5178b15c3bce2a1d39141df9943a7684a030c5eb",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEuwIBADANBgkqhkiG9w0BAQEFAASCBKUwggShAgEAAoIBAQCNuCsmMCvPDbPQ\nzTWkBT+zUP2dFeL0ct0qgBBTVAj1R2guWDY/eFe6ShV4q1zUM2YJf89dKoJxReh7\nnMNsPcAzmODZ512gP0vaOlTwcD8yL6zNmntYYhlM8MQE+YswBZIfiAWlbNRanWhL\nsi8yyY+eyhI98mWFFpF4VdlBVduVPgUNIkp3zvmMQTyuQ4vrFK8bdI46Dr83bLwd\noYFAFpqyhz/UHefYvSFOGMzZ4j6jm17lOHMo1WJ5U6D3NzZQ/DUHdx/t65kdqIEy\nIzz8uz3hooT4g5JG0trInG2xHqkSMcOAMZS2f4GGDNY7pJrDmOsgUqY7uq7H2hdc\nMe/leWwHAgMBAAECgf99bRQxAUyf88nDlP+bT1MRYOXwISWXxcf4HoQLO8JowIDh\nqAwR10vNSuiRUWGybO+YnTxXOGzMZe43eM/FjuFn7ZzKGWh6avht4qAlmg3CE91u\nrLg0pXksn1e4fSL776kaiCObsrX1fMg/WuHYo2bB/cxwdKn3IAIxou3Jd6EovLMK\n+vk9MOsdbDxlSNuAbTR4XsU2TRuhSwhkWod+N8MfARoxrgMU/dXx14bpgYFaSvLQ\ntsBQCWiR8sn1n940qBZoZoSwLkwQtUgxdTMTWb6pwJjFE7B6/tRAn2eveyBuRkkr\na7YUgqcs7lkzEg2RZNFfYgeLy5T0PJAkTAuCyyECgYEAw1SiNnBtrA6/+T4jAyI1\n8Q0m9tGZPrfD3My8cB1Nz0Gkg6L+2THdcAAD8mJQCzTlL1Je+DHZFIIcY2YxwHR1\nYTVFgHopuXp+vbq6Y/RyOeN1qArWynuO6Xi/sZcQq6atXc9DbFKHRE49sdeijmhL\n20J3vlu9yxBPLpAzbQHqp48CgYEAuby8bYa1tHLJ/J8n1bJvibam50t8PhMPbWRP\n2XXf6T37VxXEHFF7jGnixE8E+kp17RxueDDZbofsGdZIzYnvvKqUpvA5LIOuiU7d\nwDfDuwTgi082wN6BvJKpJaPeQz/3e02CTrmXNYCXgi9mAAN42mFXOSVFOBiYXjNL\ndJQp+AkCgYB65Le+SpQl6Y3M8dQzd4W6qIy4Q30IIbRAKivw2e8HlAQ+sgFng2EP\nw2K4UDSOKHR9hnSr8SjkJ0xXGYf5zwu+4jZdM/8mbDRriJ0WoEhxtXNkC5XCBWUP\n7WGmCSZ66L4wxGNmNrJWPmfAiawDrwjy5WnTQYMyzIsU/7LrRYZubwKBgQCS8ExF\nfcfsbM99ClBSUCrLUPOzkdVFqoCO80f0artsY3uexnpySMgsKmybD0SJ2jR3FAIV\nFdg+CEvxmMPZz2EY6f5WHz+sBrUirYDjG3q+Trpxm4ZeiOksTP6B56TjoQxhwMzx\nCQQl8IhsFqFkK1sFsPJ3JBQhr9uC0qPEI58cOQKBgAuUBE+wkNMSbkKUUVU+gqre\nSUkuH1PkTha6o9BzRbXSzPhBaiu4zhKnE7N0F+mRp5v7BFj8OM0lWcK/8VuvTWS/\n936uWRsj1kL5qnisJGIjOuNXTb8/1gx+g60SUns8NpOkbJyMGCG+DBt6HS1v/II5\nni7jVdkOoVqvRdAwQDCn\n-----END PRIVATE KEY-----\n",
+  "client_email": "socialfungi@appspot.gserviceaccount.com",
+  "client_id": "115935236683355907774",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/socialfungi%40appspot.gserviceaccount.com"
+}
