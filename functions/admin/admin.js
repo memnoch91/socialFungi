@@ -12,4 +12,4 @@ const db = admin.firestore()
 
 firebase.initializeApp(firebaseConfig);
 
-module.exports = { admin, db, firebase}
+module.exports = { admin, db, firebase};

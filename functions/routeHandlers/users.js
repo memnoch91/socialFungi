@@ -35,14 +35,13 @@ exports.signUp = (req, res) => {
         })
         .then(data => {
             userId = data.user.uid;
-            return data.user.getIdToken()
+            return data.user.getIdToken();
         })
         .then(idToken => {
             admin.auth().verifyIdToken(idToken)
                 .then(decodedToken => {
                     dtk = decodedToken;
                 })
-
             return idToken;
         })
         .then(idToken => {
@@ -188,7 +187,11 @@ exports.getAuthenticatedUser = (req, res) => {
             likes.forEach(like => {
                 resUserData.likes.push(like.data());
             });
-            return res.json(resUserData);
+            return db.collection('notifications')
+                .where('recipient', '==', req.user.handle)
+                .orderBy('createdAt', 'desc')
+                .limit(10)
+                .get();
         })
         .catch(err => {
             console.error(err);
