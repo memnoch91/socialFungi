@@ -3,7 +3,6 @@ const serviceAccount = require('./serviceAccountKey.env.json');
 
 const firebase = require('firebase');
 const firebaseConfig = require('./firebaseConfig.env.js')
-const firebaseStorage = require('@google-cloud/firestore');
 
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),

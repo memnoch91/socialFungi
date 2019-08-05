@@ -1,5 +1,5 @@
 const { admin, db, firebase } = require('../admin/admin');
-const { validateSignupData, validateLoginData } = require('../utils/validationUtils');
+const { validateSignupData, validateLoginData, reduceUserDetails } = require('../utils/validationUtils');
 const firebaseConfig = require('../admin/firebaseConfig.env.js');
 
 
@@ -98,6 +98,8 @@ exports.logIn = (req, res) => {
         })
 }
 
+/*** UPLOAD PROFILE IMAGE ***/
+
 exports.uploadImage = (req, res) => {
     const BusBoy = require('busboy');
     const path = require('path');
@@ -111,9 +113,13 @@ exports.uploadImage = (req, res) => {
 
     busboy.on('file', (fieldname, file, filename, encoding, mimetype) => {
         //below constant extracts the  file extension
-        console.log(fieldname);
-        console.log(filename);
-        console.log(mimetype);
+        // console.log(fieldname);
+        // console.log(filename);
+        // console.log(mimetype);
+
+        if (mimetype !== 'image/jpeg' && mimetype !== 'image/png') {
+            return res.status(400).json({ error: "Wrong file type submitted" })
+        }
 
         const imgExtension = filename.split('.')[filename.split('.').length - 1];
         imageFileName = `${Math.round(Math.random() * 100000)}.${imgExtension}`;
@@ -144,8 +150,48 @@ exports.uploadImage = (req, res) => {
                 console.log(err);
                 return res.status(500).json({ error: err.code });
             })
-       
+
     });
     busboy.end(req.rawBody);
 
+}
+
+/*** ADD USER DETAILS ***/
+
+exports.addUserDetails = (req, res) => {
+    let newUserDetails = reduceUserDetails(req.body)
+    db.doc(`/users/${req.user.handle}`).update(newUserDetails)
+        .then(() => {
+            return res.status(200).json({ message: 'Details updated successfully' });
+        })
+        .catch(err => {
+            console.error(err);
+            return req.status(500).json({ error: err.code })
+        })
+}
+
+/*** GET OWN USER DETAILS ***/
+
+exports.getAuthenticatedUser = (req, res) => {
+    const resUserData = {}; // response user data
+    // console.log('user badle', req);
+    
+    db.doc(`/users/${req.user.handle}`).get() //get returns a documentSnapshot
+        .then(doc => {
+            if(doc.exists) {
+                resUserData.credentials = doc.data();
+                return db.collection('likes').where('userHandle', '==', req.user.handle).get();
+            };
+        })
+        .then(likes => {
+            resUserData.likes = [];
+            likes.forEach(like => {
+                resUserData.likes.push(like.data());
+            });
+            return res.json(resUserData);
+        })
+        .catch(err => {
+            console.error(err);
+            res.status(500).json({error: err.code});
+        })
 }

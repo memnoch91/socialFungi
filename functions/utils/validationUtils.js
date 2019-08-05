@@ -32,7 +32,7 @@ const FBAuth = (req, res, next) => {
             //the token received here contains user data that needs to be added to the user request
             //exta data on the token form the user  in the middleware
             req.user = decodedToken;
-            console.log(decodedToken);
+            // console.log(decodedToken);
             return db.collection('users')
                 .where('userId', '==', req.user.uid)
                 .limit(1)
@@ -40,6 +40,7 @@ const FBAuth = (req, res, next) => {
         })
         .then(data => {
             req.user.handle = data.docs[0].data().handle;
+            req.user.imageUrl = data.docs[0].data().imageUrl;
             return next();
         })
         .catch(err => {
@@ -80,4 +81,31 @@ const validateLoginData = (data) => {
     }
 }
 
-module.exports = { isEmpty, isEmail, FBAuth, validateSignupData, validateLoginData }
+const reduceUserDetails = (newdUserDetails) => {
+    const tempUserDetails = {
+        bio: '',
+        website: '',
+        location: ''
+
+    };
+    // check for bio
+    if (!isEmpty(newdUserDetails.bio.trim())) { tempUserDetails.bio = newdUserDetails.bio };
+
+    //check for website update with http if needed and add new version;
+    if (!isEmpty(newdUserDetails.website.trim())) {
+        // https://website.com || http://website.com will be posted as is if http or https not passed by user http will be added;
+        if (newdUserDetails.website.trim().substring(0, 4) !== 'http') {
+            tempUserDetails.website = `http://${newdUserDetails.website.trim()}`;
+            console.log('temp user details', tempUserDetails.website);
+
+        } else tempUserDetails.website = newdUserDetails.website;
+    }
+
+
+    // check for location
+    if (!isEmpty(newdUserDetails.location.trim())) { tempUserDetails.location = newdUserDetails.location };
+
+    return tempUserDetails;
+}
+
+module.exports = { isEmpty, isEmail, FBAuth, validateSignupData, validateLoginData, reduceUserDetails }
