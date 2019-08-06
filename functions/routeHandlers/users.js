@@ -51,7 +51,7 @@ exports.signUp = (req, res) => {
                 handle: newUser.handle,
                 email: newUser.email,
                 createdAt: new Date().toDateString(),
-                imageUrl: `https://firebasestorage.googleapis.com/v0/b/${storageBucket}/o/${noImg}?alt=media&token=9e0388e0-e22e-4e5a-bc02-0359933ed8db`,
+                imageUrl: `https://firebasestorage.googleapis.com/v0/b/${storageBucket}/o/${noImg}?alt=media`,
                 userId
                 //`https://firebasestorage.googleapis.com/v0/b/${ storageBucket}/ o / ${ noImg }?alt = media`
                 // https://firebasestorage.gooleapis.com/v2/b/socialfungi.appspot.com/o/no-img.png?alt=media
@@ -67,10 +67,12 @@ exports.signUp = (req, res) => {
             if (err.code === 'auth/email-already-in-use') {
                 return res.status(400).json({ email: 'Email is already in use' })
             } else {
-                return res.status(500).json({ error: err.code });
+                return res.status(500).json({ general: 'Something went wrong please try again' });
             }
         });
 }
+
+/*** LOGIN PROFILE IMAGE ***/
 
 exports.logIn = (req, res) => {
     const user = {
@@ -173,13 +175,16 @@ exports.addUserDetails = (req, res) => {
 
 exports.getAuthenticatedUser = (req, res) => {
     const resUserData = {}; // response user data
-    // console.log('user badle', req);
-    
-    db.doc(`/users/${req.user.handle}`).get() //get returns a documentSnapshot
+
+    db.doc(`/users/${req.user.handle}`)
+        .get() //get returns a documentSnapshot
         .then(doc => {
-            if(doc.exists) {
+            if (doc.exists) {
                 resUserData.credentials = doc.data();
-                return db.collection('likes').where('userHandle', '==', req.user.handle).get();
+                return db
+                    .collection('likes')
+                    .where('userHandle', '==', req.user.handle)
+                    .get();
             };
         })
         .then(likes => {
@@ -193,8 +198,78 @@ exports.getAuthenticatedUser = (req, res) => {
                 .limit(10)
                 .get();
         })
+        .then(notificationData => {
+            resUserData.notifications = [];
+            notificationData.forEach(doc => {
+                resUserData.notifications.push({
+                    recipient: doc.data().recipient,
+                    sender: doc.data().sender,
+                    createdAt: doc.data().createdAt,
+                    sporeId: doc.data().sporeId,
+                    type: doc.data().type,
+                    read: doc.data().read,
+                    notificationId: doc.id
+                });
+            });
+            return res.json(resUserData); // bug forgot to return
+        })
         .catch(err => {
             console.error(err);
-            res.status(500).json({error: err.code});
+            res.status(500).json({ error: err.code });
+        });
+}
+
+/*** GET ANY USER DETAILS ***/
+
+exports.getUserDetails = (req, res) => {
+    let resUserData = {};
+    db.doc(`/users/${req.params.handle}`)
+        .get()
+        .then((doc) => {
+            if (doc.exists) {
+                resUserData.user = doc.data();
+                return db
+                    .collection('spores')
+                    .where('userHandle', '==', req.params.handle)
+                    .orderBy('createdAt', 'desc')
+                    .get();
+            } else {
+                return res.status(404).json({ errror: 'User not found' });
+            }
+        })
+        .then((data) => {
+            resUserData.spores = [];
+            data.forEach((doc) => {
+                resUserData.spores.push({
+                    body: doc.data().body,
+                    createdAt: doc.data().createdAt,
+                    userHandle: doc.data().userHandle,
+                    userImage: doc.data().userImage,
+                    likeCount: doc.data().likeCount,
+                    commentCount: doc.data().commentCount,
+                    screamId: doc.id
+                });
+            });
+            return res.json(resUserData);
+        })
+        .catch((err) => {
+            console.error(err);
+            return res.status(500).json({ error: err.code });
+        });
+};
+
+exports.markNotificationsRead = (req, res) => {
+    let batch = db.batch();
+
+    req.body.forEach(notificationId => {
+        const notification = db.doc(`/notifications/${notificationId}`);
+        batch.update(notification, {read: true});
+    });
+    batch.commit()
+        .then(() => {
+            return res.json({message: 'Notificaions marked as read'});
+        })
+        .catch(err => {
+            return res.status(500).json({error: err.code});
         })
 }

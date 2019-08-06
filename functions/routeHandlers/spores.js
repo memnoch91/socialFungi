@@ -13,7 +13,8 @@ exports.getSpores = (req, res) => {
                     userHandle: doc.data().userHandle,
                     createdAt: doc.data().createdAt,
                     commentCount: doc.data().commentCount,
-                    likeCount: doc.data().likeCount
+                    likeCount: doc.data().likeCount,
+                    userImage: doc.data().imageUrl // DIFFERENT FROM THE TUTORIAL
                 });
             });
             return res.json(spores);
@@ -74,7 +75,7 @@ exports.getSpore = (req, res) => {
 }
 
 exports.createCommentForSpore = (req, res) => {
-    if (req.body.body.trim() === '') { return res.status(400).json({ error: "Field must not be empty" }) };
+    if (req.body.body.trim() === '') { return res.status(400).json({ comment: "Field must not be empty" }) };
     const newComment = {
         body: req.body.body,
         createdAt: new Date().toISOString(),
