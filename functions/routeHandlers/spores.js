@@ -14,7 +14,7 @@ exports.getSpores = (req, res) => {
                     createdAt: doc.data().createdAt,
                     commentCount: doc.data().commentCount,
                     likeCount: doc.data().likeCount,
-                    userImage: doc.data().imageUrl // DIFFERENT FROM THE TUTORIAL
+                    userImage: doc.data().userImage // DIFFERENT FROM THE TUTORIAL
                 });
             });
             return res.json(spores);
