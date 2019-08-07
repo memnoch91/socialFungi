@@ -54,11 +54,13 @@ const validateSignupData = (data) => {
 
     if (isEmpty(data.email)) {
         errors.email = 'Field must not be empty';
-    } else if (!isEmail(data.email)) {
+    } 
+    else if (!isEmail(data.email)) {
         errors.email = 'Must be a valid email adress';
     }
 
     if (isEmpty(data.password)) { errors.password = 'Field Must not be empty' };
+    if (isEmpty(data.confirmPassword)) { errors.confirmPassword = 'Field Must not be empty' };
     if (data.password !== data.confirmPassword) { errors.confirmPassword = 'Passwords must match' };
     if (isEmpty(data.handle)) { errors.handle = 'Field Must not be empty' }
 

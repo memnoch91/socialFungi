@@ -16,7 +16,7 @@ exports.signUp = (req, res) => {
     }
     /*** validate data ***/
     const { dataIsValid, errors } = validateSignupData(newUser);
-    if (!dataIsValid) return res.status(400).json({ errors })
+    if (!dataIsValid) return res.status(400).json( errors )
 
     /*** default image added to imageUrl below ***/
     const noImg = 'no-img.png'
@@ -81,7 +81,7 @@ exports.logIn = (req, res) => {
     };
 
     const { dataIsValid, errors } = validateLoginData(user);
-    if (!dataIsValid) return res.status(400).json({ errors })
+    if (!dataIsValid) return res.status(400).json(errors)
 
     firebase.auth().signInWithEmailAndPassword(user.email, user.password)
         .then(data => {
@@ -93,9 +93,7 @@ exports.logIn = (req, res) => {
         })
         .catch(err => {
             console.error(err);
-            if (err.code === "auth/wrong-password") {
                 return res.status(403).json({ general: 'Wrong credentials, please try again' });
-            } else return res.status(500).json({ error: err.code })
         })
 }
 
