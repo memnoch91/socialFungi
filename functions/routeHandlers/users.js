@@ -139,7 +139,7 @@ exports.uploadImage = (req, res) => {
             }
         })
             .then(() => {
-                const imageUrl = `https://firebasestorage.gooleapis.com/v0/b/${storageBucket}/o/${imageFileName}?alt=media`;
+                const imageUrl = `https://firebasestorage.googleapis.com/v0/b/${storageBucket}/o/${imageFileName}?alt=media`;
                 return db.doc(`/users/${req.user.handle}`).update({ imageUrl });
             })
             .then(() => {
