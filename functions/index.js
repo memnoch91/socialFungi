@@ -13,8 +13,8 @@ const { signUp, logIn, uploadImage, addUserDetails, getAuthenticatedUser, getUse
  * ROUTES
  */
 app.get('/spores', getSpores);
-app.get('/spores/:sporeId', getSpore);
 
+app.get('/spore/:sporeId', getSpore);
 app.post('/spore', FBAuth, createSpore);
 app.post('/spore/:sporeId/comment', FBAuth, createCommentForSpore);
 
