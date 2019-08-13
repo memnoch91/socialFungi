@@ -96,10 +96,7 @@ exports.createCommentForSpore = (req, res) => {
             return db.collection('comments').add(newComment);
         })
         .then(() => {
-            res.status(200).json({
-                message: 'new comment created',
-                newComment: newComment
-            });
+            res.status(200).json(newComment);
         })
         .catch(err => {
             console.error(err);
@@ -210,7 +207,6 @@ exports.unlikeSpore = (req, res) => {
 }
 
 // Delete Spore;
-
 exports.deleteSpore = (req, res) => {
     const document = db.doc(`/spores/${req.params.sporeId}`);
     document.get()
