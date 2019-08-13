@@ -23,6 +23,9 @@ exports.getSpores = (req, res) => {
 };
 
 exports.createSpore = (req, res) => {
+    if (req.body.body.trim() === '') {
+        return res.status(400).json({ body: 'Body must not be empty' });
+    };
     const newSpore = {
         body: req.body.body,
         userHandle: req.user.handle,
@@ -143,10 +146,7 @@ exports.likeSpore = (req, res) => {
                         return sporeDocument.update({ likeCount: sporeData.likeCount })
                     })
                     .then(() => {
-                        return res.json({
-                            message: 'Spore Liked',
-                            sporeData: sporeData
-                        })
+                        return res.json(sporeData)
                     })
                     .catch(err => {
                         console.error(err);
@@ -179,7 +179,7 @@ exports.unlikeSpore = (req, res) => {
         .then(sporeDoc => {
             if (sporeDoc.exists) {
                 sporeData = sporeDoc.data();
-                sporeData.sporeId = sporeDoc.data.id;
+                sporeData.sporeId = sporeDoc.id;
                 return likeDocument.get();
             } else {
                 return res.status(404).json({ error: 'Spore not found' });
@@ -198,10 +198,7 @@ exports.unlikeSpore = (req, res) => {
                         return sporeDocument.update({ likeCount: sporeData.likeCount })
                     })
                     .then(() => {
-                        res.status(200).json({
-                            message: 'spore unliked',
-                            sporeData: sporeData
-                        })
+                        res.status(200).json(sporeData)
                     })
                     .catch(err => {
                         console.error(err);
