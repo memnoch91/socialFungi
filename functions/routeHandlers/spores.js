@@ -38,10 +38,7 @@ exports.createSpore = (req, res) => {
         .then(doc => {
             const responseSpore = newSpore;
             responseSpore.sporeId = doc.id;
-            res.json({
-                message: `document ${doc.id} created successfully`,
-                responseSpore
-            });
+            res.json(responseSpore);
         })
         .catch(err => {
             res.status(500).json({ error: 'please look at the console for the error' });
