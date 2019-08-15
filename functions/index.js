@@ -9,6 +9,9 @@ const { FBAuth } = require('./utils/validationUtils'); // FBAuth stands for fire
 const { getSpores, createSpore, getSpore, createCommentForSpore, likeSpore, unlikeSpore, deleteSpore } = require('./routeHandlers/spores');
 const { signUp, logIn, uploadImage, addUserDetails, getAuthenticatedUser, getUserDetails, markNotificationsRead } = require('./routeHandlers/users')
 
+const cors = require ('cors');
+app.use(cors());
+
 /**
  * ROUTES
  */
