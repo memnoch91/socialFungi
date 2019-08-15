@@ -57,11 +57,11 @@ const userDetails = {
     likes: [
         {
             userHandle: 'user',
-            screamId: 'hh7O5oWfWucVzGbHH2pa'
+            sporeId: 'hh7O5oWfWucVzGbHH2pa'
         },
         {
             userHandle: 'user',
-            screamId: '3IOnFoQexRcofs5OhBXO'
+            sporeId: '3IOnFoQexRcofs5OhBXO'
         }
     ]
 };

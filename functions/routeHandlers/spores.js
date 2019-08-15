@@ -103,7 +103,7 @@ exports.createCommentForSpore = (req, res) => {
             res.status(500).json({ error: 'Something went wrong' })
         })
 }
-// Like scream
+// Like Spore
 exports.likeSpore = (req, res) => {
     const likeDocument = db
         .collection('likes')
